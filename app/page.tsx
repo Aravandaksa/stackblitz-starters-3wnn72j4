@@ -1,3 +1,5 @@
+// app/page.tsx
+
 "use client";
 
 import { useState } from "react";
@@ -6,45 +8,56 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [html, setHtml] = useState("");
 
-  const handleCopy = async () => {
+  const handleCopy = () => {
     if (!url) return;
-    setLoading(true);
-
-    try {
-      const res = await fetch(`/api/copy?url=${encodeURIComponent(url)}`);
-      const data = await res.text();
-      setHtml(data);
-    } catch (err) {
-      console.error("Помилка копіювання:", err);
-    } finally {
-      setLoading(false);
-    }
+    alert(`Скопіювати сайт за URL: ${url}`);
+    // Тут буде логіка копіювання
   };
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-4">
-      <h1 className="text-4xl font-bold mb-6">Скопіювати сайт</h1>
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-black text-white">
+      {/* Відео на фоні */}
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute inset-0 w-full h-full object-cover opacity-20 z-0"
+      >
+        <source src="/background.mp4" type="video/mp4" />
+      </video>
 
-      <div className="w-full max-w-md space-y-4">
-        <Input
-          placeholder="Введіть URL (наприклад, https://example.com)"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          className="bg-zinc-900 text-white border-zinc-700"
-        />
-        <Button onClick={handleCopy} disabled={loading} className="w-full">
-          {loading ? "Завантаження..." : "Скопіювати сайт"}
-        </Button>
-      </div>
+      {/* Контент */}
+      <div className="z-10 relative px-4 w-full max-w-2xl text-center">
+        <h1 className="text-5xl font-bold mb-6">Pickly</h1>
+        <p className="mb-8 text-lg text-gray-300">
+          Скопіюй будь-який сайт за URL і редагуй його через AI
+        </p>
 
-      {html && (
-        <div className="mt-10 w-full max-w-4xl bg-zinc-900 p-4 rounded text-sm overflow-auto max-h-[400px]">
-          <pre>{html}</pre>
+        <div className="flex gap-2 w-full">
+          <Input
+            type="text"
+            placeholder="https://example.com"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="flex-1 bg-white text-black"
+          />
+          <Button onClick={handleCopy}>Скопіювати</Button>
         </div>
-      )}
+
+        <div className="mt-8">
+          <iframe
+            data-tally-src="https://tally.so/embed/w4gV6J?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+            loading="lazy"
+            width="100%"
+            height="147"
+            frameBorder="0"
+            marginHeight={0}
+            marginWidth={0}
+            title="Tally Form"
+          ></iframe>
+        </div>
+      </div>
     </main>
   );
 }
