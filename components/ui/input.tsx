@@ -1,15 +1,15 @@
 // components/ui/input.tsx
-import React from 'react';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+import React from "react";
 
-const Input: React.FC<InputProps> = (props) => {
+export const Input = ({
+  className = "",
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <input
+      className={`px-4 py-2 border border-gray-300 rounded bg-white text-black ${className}`}
       {...props}
-      className="px-4 py-2 border border-gray-300 rounded"
     />
   );
 };
-
-export default Input;
